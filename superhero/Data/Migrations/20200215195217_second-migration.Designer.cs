@@ -10,8 +10,8 @@ using superhero.Data;
 namespace superhero.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200214202440_superhero-migration")]
-    partial class superheromigration
+    [Migration("20200215195217_second-migration")]
+    partial class secondmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,33 @@ namespace superhero.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("superhero.Models.Superhero", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AlterEgo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CatchPhrase")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrimaryAbility")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecondaryAbility")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Superheroes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
