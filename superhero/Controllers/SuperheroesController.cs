@@ -25,14 +25,15 @@ namespace superhero.Controllers
         // GET: Superheroes/Details/5
         public ActionResult Details(int id)
         {
-            Superhero superhero = _context.Superheroes.Find(id); 
+            var superhero = _context.Superheroes.Find(id); 
             return View(superhero);
         }
 
         // GET: Superheroes/Create
         public ActionResult Create()
         {
-            return View();
+            Superhero superhero = new Superhero();
+            return View(superhero);
         }
 
         // POST: Superheroes/Create
@@ -42,36 +43,42 @@ namespace superhero.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
                     _context.Superheroes.Add(superhero);
                     _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
                 }
+                return View(superhero);
                 
-                return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(superhero);
             }
         }
 
         // GET: Superheroes/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var superhero = _context.Superheroes.Find(id);
+            return View(superhero);
         }
 
         // POST: Superheroes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Superhero superhero)
         {
             try
             {
-                // TODO: Add update logic here
-
+                Superhero heroFromDb = _context.Superheroes.Find(id);
+                heroFromDb.Name = superhero.Name;
+                heroFromDb.AlterEgo = superhero.AlterEgo;
+                heroFromDb.PrimaryAbility = superhero.PrimaryAbility;
+                heroFromDb.SecondaryAbility = superhero.SecondaryAbility;
+                heroFromDb.CatchPhrase = superhero.CatchPhrase;
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -83,18 +90,19 @@ namespace superhero.Controllers
         // GET: Superheroes/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var superhero = _context.Superheroes.Find(id);
+            return View(superhero);
         }
 
         // POST: Superheroes/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Superhero superhero)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                _context.Superheroes.Remove(superhero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
